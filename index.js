@@ -1,9 +1,13 @@
-const url = new URL(document.URL);
-const postsUrl = `http://${url.hostname}:3000/posts`;
-
-const container = document.querySelector(".blogs");
+const deletePost = (id) => {
+  const { hostname } = new URL(document.URL);
+  const deleteUrl = `http://${hostname}:3000/posts/${id}`;
+  fetch(deleteUrl, { method: "DELETE" });
+};
 
 const renderPosts = async () => {
+  const { hostname } = new URL(document.URL);
+  const postsUrl = `http://${hostname}:3000/posts?_sort=likes&_order=desc`;
+
   const res = await fetch(postsUrl);
   const posts = await res.json();
 
@@ -14,10 +18,11 @@ const renderPosts = async () => {
       <p><small>${post.likes} likes</small></p>
       <p>${post.body.slice(0, 100)}</p>
       <a href="/details.html?id=${post.id}">read more ...</a>
+      <button onClick="deletePost(${post.id})">Delete</button>
     </div>\n`;
   });
 
-  container.innerHTML = template;
+  document.querySelector(".blogs").innerHTML = template;
 };
 
 window.addEventListener("DOMContentLoaded", () => renderPosts());

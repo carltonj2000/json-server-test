@@ -1,6 +1,5 @@
 {
   "posts": [
-    { "id": 1, "title": "Rambling On", "body": "blah blah blah", "likes": 30 },
     {
       "id": 2,
       "title": "Rambling On 2",
@@ -20,5 +19,12 @@
       "likes": 23
     }
   ],
-  "polls": [{ "id": 1, "title": "Do you like vue", "yes": 101, "no": 30 }]
+  "polls": [
+    {
+      "id": 1,
+      "title": "Do you like vue",
+      "yes": 101,
+      "no": 30
+    }
+  ]
 }
