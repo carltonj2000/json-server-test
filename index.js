@@ -1,17 +1,26 @@
+const posts = [];
+
 const deletePost = (id) => {
   const { hostname } = new URL(document.URL);
   const deleteUrl = `http://${hostname}:3000/posts/${id}`;
   fetch(deleteUrl, { method: "DELETE" });
 };
 
-const renderPosts = async () => {
+const getPosts = async (searchStr) => {
   const { hostname } = new URL(document.URL);
-  const postsUrl = `http://${hostname}:3000/posts?_sort=likes&_order=desc`;
+  const q = searchStr ? `&q=${searchStr}` : "";
+  const postsUrl = `http://${hostname}:3000/posts?_sort=likes&_order=desc${q}`;
 
   const res = await fetch(postsUrl);
-  const posts = await res.json();
+  const json = await res.json();
+  posts.length = 0;
+  posts.push(...json);
+  showPosts();
+};
 
+const showPosts = async () => {
   let template = "";
+  if (posts.length === 0) template = "<h2>No posts</h2>";
   posts.forEach((post) => {
     template += `<div class="post">
       <h2>${post.title}</h2>
@@ -25,4 +34,9 @@ const renderPosts = async () => {
   document.querySelector(".blogs").innerHTML = template;
 };
 
-window.addEventListener("DOMContentLoaded", () => renderPosts());
+window.addEventListener("DOMContentLoaded", () => getPosts());
+
+document.querySelector(".search").addEventListener("submit", (e) => {
+  e.preventDefault();
+  getPosts(document.querySelector("input").value);
+});

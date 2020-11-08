@@ -60,3 +60,12 @@ textarea {
   text-decoration: none;
   display: block;
 }
+
+.search {
+  display: flex;
+}
+
+.search button {
+  display: inline;
+  margin-left: 20px;
+}
